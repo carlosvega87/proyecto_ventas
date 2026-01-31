@@ -3,6 +3,6 @@ export interface MovimientoInventario{
     tipo:string
     cantidad:number
     fechaMovimiento:string
-    // prueba version
-    
+    // prueba 2 
+        
 }
