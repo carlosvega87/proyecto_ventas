@@ -13,10 +13,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import{ MatButtonModule} from '@angular/material/button';
 import { MovimientoInventarioComponent } from './components/movimientoinventario/movimientoinventario';
+import { ClienteComponent } from './components/cliente/cliente';
+import {  CategoriaComponent } from './components/categoria/categoria';
+//import { ClienteComponent } from './components/cliente/cliente';
 @NgModule({
   declarations: [
     App,
     MovimientoInventarioComponent,
+    ClienteComponent,
+    CategoriaComponent
     
   ],
   imports: [
