@@ -1,12 +1,13 @@
-package com.distribuida.Service;
+package com.distribuida.service;
 
 import com.distribuida.dao.CategoriaRepository;
 import com.distribuida.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class CategoriaServiceImpl implements CategoriaService{
 
     @Autowired

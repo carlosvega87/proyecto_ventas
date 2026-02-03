@@ -1,6 +1,6 @@
 package com.distribuida.controller;
 
-import com.distribuida.Service.ClienteService;
+import com.distribuida.service.ClienteService;
 import com.distribuida.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.distribuida.Service;
+package com.distribuida.service;
 
 import com.distribuida.dao.ProductosRepository;
 import com.distribuida.model.Productos;

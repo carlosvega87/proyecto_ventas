@@ -1,6 +1,6 @@
 package com.distribuida.controller;
 
-import com.distribuida.Service.PedidoDetalleService;
+import com.distribuida.service.PedidoDetalleService;
 import com.distribuida.model.PedidoDetalle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

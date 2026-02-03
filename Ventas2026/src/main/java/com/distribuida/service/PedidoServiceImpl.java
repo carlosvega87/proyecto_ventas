@@ -1,4 +1,4 @@
-package com.distribuida.Service;
+package com.distribuida.service;
 
 import com.distribuida.dao.PedidoRepository;
 import com.distribuida.model.Pedido;

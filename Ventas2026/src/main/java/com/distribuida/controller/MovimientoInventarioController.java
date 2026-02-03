@@ -1,7 +1,6 @@
 package com.distribuida.controller;
 
-import com.distribuida.Service.MovimientoInventarioService;
-import com.distribuida.Service.MovimientoInventarioService;
+import com.distribuida.service.MovimientoInventarioService;
 import com.distribuida.model.MovimientoInventario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.distribuida.controller;
 
-import com.distribuida.Service.ProductosService;
+import com.distribuida.service.ProductosService;
 import com.distribuida.model.Productos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

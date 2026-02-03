@@ -1,6 +1,6 @@
 package com.distribuida.controller;
 
-import com.distribuida.Service.CategoriaService;
+import com.distribuida.service.CategoriaService;
 import com.distribuida.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/categoria")
+@RequestMapping("/api/categoria")
 public class CategoriaController {
 
     @Autowired
