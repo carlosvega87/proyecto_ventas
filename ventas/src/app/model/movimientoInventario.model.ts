@@ -1,8 +1,10 @@
+import { Productos } from "./productos.model"
 export interface MovimientoInventario{
     idMovimiento:number
     tipo:string
     cantidad:number
     fechaMovimiento:string
-    // prueba 2 
+   productos : Productos
+   [key :string]:any;
         
 }

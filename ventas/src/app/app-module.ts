@@ -15,13 +15,16 @@ import{ MatButtonModule} from '@angular/material/button';
 import { MovimientoInventarioComponent } from './components/movimientoinventario/movimientoinventario';
 import { ClienteComponent } from './components/cliente/cliente';
 import {  CategoriaComponent } from './components/categoria/categoria';
-//import { ClienteComponent } from './components/cliente/cliente';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ProductosComponent} from './components/productos/productos';
+
 @NgModule({
   declarations: [
     App,
     MovimientoInventarioComponent,
     ClienteComponent,
-    CategoriaComponent
+    CategoriaComponent,
+    ProductosComponent
     
   ],
   imports: [
@@ -36,7 +39,8 @@ import {  CategoriaComponent } from './components/categoria/categoria';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
 
 
   ],

@@ -34,3 +34,5 @@ constructor(private http: HttpClient){  }
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
+
+export { Cliente };
