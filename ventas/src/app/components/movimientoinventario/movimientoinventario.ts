@@ -9,7 +9,7 @@ import { MovimientoInventarioService } from '../../services/movimientoinventario
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-
+import { NgForm } from '@angular/forms';  
 
 @Component({
   selector: 'app-movimientoinventario',
@@ -18,18 +18,17 @@ import Swal from 'sweetalert2';
   styleUrl: './movimientoinventario.css',
 })
 export class MovimientoInventarioComponent implements OnInit {
-  productos : Productos []= [];
-  
-  movimientoinventario: MovimientoInventario={} as MovimientoInventario;
+    movimientoInventarios : MovimientoInventario []= [];
+    productos : Productos []= [];
+    movimientoInventario: MovimientoInventario={} as MovimientoInventario;
   editar : boolean= false;
   idEditar : number| null= null;
   dataSource !: MatTableDataSource<MovimientoInventario>;
   seleccionarArchivo!: File;
   imagenPrevia: string="";
-  libroSeleccionado: MovimientoInventario | null = null;
+  movimientoInventarioSeleccionado: MovimientoInventario | null = null;
 
-  mostrarColumnas: string[]= ['detalles', 'idMovimientoInventario','titulo','editorial','edicion','idioma','fechaPublicacion'
-                              ,'numEjemplares','precio','autor','categoria','acciones'  ];
+  mostrarColumnas: string[]= ['detalles', 'idMovimiento','tipo','cantidad','fechaMovimiento','productos','acciones'  ];
 
   @ViewChild('formularioMovimientoInventario')formularioMovimientoInventario !: ElementRef;
   @ViewChild  (MatPaginator)paginator !: MatPaginator;
@@ -65,16 +64,16 @@ export class MovimientoInventarioComponent implements OnInit {
     
 
     save (): void {
-      this.movimientoinventarioService.save(this.movimientoinventario).subscribe(()=>{
-        this.movimientoinventario={ }as MovimientoInventario;
+      this.movimientoinventarioService.save(this.movimientoInventario).subscribe(()=>{
+        this.movimientoInventario={ }as MovimientoInventario;
         this.findAll();
       });
     }
 
     update(): void{
       if(this.idEditar!==null){
-        this.movimientoinventarioService.update(this.idEditar, this.movimientoinventario).subscribe(()=>{
-          this.movimientoinventario= {} as MovimientoInventario;
+        this.movimientoinventarioService.update(this.idEditar, this.movimientoInventario).subscribe(()=>{
+          this.movimientoInventario= {} as MovimientoInventario;
           this.editar=false;
           this.idEditar=null;
           this.findAll();
@@ -93,14 +92,102 @@ export class MovimientoInventarioComponent implements OnInit {
         cancelButtonColor:'#3085d6'
       }).then((result)=>{
         if(result.isConfirmed){
-          this.movimientoinventarioService.delete(this.movimientoinventario.idMovimiento).subscribe(()=>{
+          this.movimientoinventarioService.delete(this.movimientoInventario.idMovimiento).subscribe(()=>{
             this.findAll();
-            this.movimientoinventario={} as MovimientoInventario;
+            this.movimientoInventario={} as MovimientoInventario;
             Swal.fire('Eliminado','El registro ha sido eliminado','success');
           });
         }else{
-          this.movimientoinventario={} as MovimientoInventario;
+          this.movimientoInventario={} as MovimientoInventario;
         }
       });
     }
+  
+
+  
+    //interaccion en la pagina
+    editarmovimientoInventario(movimientoInventario : MovimientoInventario):void {
+      this.movimientoInventario={...movimientoInventario};
+      this.idEditar =movimientoInventario.idMovimiento;
+      this.editar=true;
+      setTimeout(() => {
+        this.formularioMovimientoInventario.nativeElement.scrollIntoView({behavior: 'smooth',block:'start'})
+      }, 100);
+    }
+editarMovimientoInventarioCancelar(form : NgForm):void{
+  this.movimientoInventario={} as MovimientoInventario;
+  this.idEditar=null;
+  this.editar=false;
+  form.resetForm();
+}
+
+guardarMovimientoInventario():void{
+  if(this.editar&& this.editar!==null){
+    this.update();
+}else{
+  this.save();
+}
+this.dialog.closeAll();
+}
+
+filtroMovimientoInventario(event : Event):void{
+  const filtro =(event.target as HTMLInputElement).value;
+  this.dataSource.filter=filtro.trim().toLocaleLowerCase();
+}
+
+nombreCompletoProductos(productos: Productos): string{
+  return` ${productos.nombre}`;
+}
+abrirModal(movimientoInventario: MovimientoInventario) : void{
+  if(movimientoInventario){
+    this.movimientoInventario={...movimientoInventario};
+    this.editar=true;
+    this.idEditar=movimientoInventario.idMovimiento;
+  }else{
+    this.movimientoInventario={}as MovimientoInventario;
+    this.editar= false;
+    this.idEditar=null;
+ }
+ this.dialog.open(this.modalMovimientoInventario,{
+  width: '800px',
+  disableClose: true
+ });
+}
+
+compareProductos(c1: Productos, c2:Productos): boolean{
+  return c1 && c2 ? c1.idProducto === c2.idProducto : c1 === c2;
+}
+
+onFileSelected(event: any){
+  this.seleccionarArchivo=event.target.files[0];
+}
+
+subirImagen(): void {
+  const formData = new FormData();
+  formData.append("file",this.seleccionarArchivo);
+
+  if ( this.movimientoInventario["portada"]){
+    formData.append("oldImage",this.movimientoInventario["portada"]);
   }
+
+  this.http.post<{ruta:string}>('http://localhost:8080/api/upload-portada',formData).subscribe(res=>{ 
+    this.movimientoInventario["portada"]= res.ruta;
+    this.imagenPrevia= res.ruta;
+  });
+}
+
+abrirModalDEtalles (movimientoInventario: MovimientoInventario): void{
+  this.movimientoInventarioSeleccionado= movimientoInventario;
+  this.dialog.open(this.modalDetalles,{
+   width:'500px' 
+  });
+}
+
+cerrarModal():void{
+  this.dialog.closeAll();
+  this.movimientoInventarioSeleccionado=null;
+}
+
+}
+
+

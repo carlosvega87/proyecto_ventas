@@ -1,4 +1,4 @@
-import { Productos } from "./productos.model"
+import { Productos} from "./productos.model"
 export interface MovimientoInventario{
     idMovimiento:number
     tipo:string

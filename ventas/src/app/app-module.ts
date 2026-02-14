@@ -17,6 +17,9 @@ import { ClienteComponent } from './components/cliente/cliente';
 import {  CategoriaComponent } from './components/categoria/categoria';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ProductosComponent} from './components/productos/productos';
+import { MatSelectModule } from '@angular/material/select';
+import{MatNativeDateModule, MatOptionModule} from '@angular/material/core';
+import{MatDatepickerModule} from  '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -40,8 +43,11 @@ import { ProductosComponent} from './components/productos/productos';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatNativeDateModule
 
   ],
   providers: [

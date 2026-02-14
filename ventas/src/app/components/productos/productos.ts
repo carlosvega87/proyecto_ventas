@@ -1,5 +1,6 @@
 import { Component,  ElementRef,  OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Productos } from '../../model/productos.model';
+import { Categoria } from '../../model/categoria.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,7 +9,7 @@ import { CategoriaService } from '../../services/categoria';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-
+import { NgForm } from '@angular/forms';  
 
 @Component({
   selector: 'app-productos',
@@ -17,18 +18,18 @@ import Swal from 'sweetalert2';
   styleUrl: './productos.css',
 })
 export class ProductosComponent implements OnInit {
-  productos : Productos []= [];
-  
+ productos : Productos []= [];
+   categoria: Categoria[]=[];
   producto: Productos={} as Productos;
   editar : boolean= false;
   idEditar : number| null= null;
   dataSource !: MatTableDataSource<Productos>;
   seleccionarArchivo!: File;
   imagenPrevia: string="";
-  productoSeleccionado: Productos | null = null;
+  productoSeleccionado: Productos| null = null;
 
-  mostrarColumnas: string[]= ['detalles', 'idProductos','titulo','editorial','edicion','idioma','fechaPublicacion'
-                              ,'numEjemplares','precio','autor','categoria','acciones'  ];
+  mostrarColumnas: string[]= ['detalles', 'idProducto','nombre','precio','stock','fechaRegistro','estado'
+                              ,'categoria','acciones'  ];
 
   @ViewChild('formularioProductos')formularioProductos !: ElementRef;
   @ViewChild  (MatPaginator)paginator !: MatPaginator;
@@ -47,7 +48,7 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
 
     this.findAll();
-      this.cargarProductos();
+      this.cargarCategorias();
     
      }
 
@@ -58,8 +59,8 @@ export class ProductosComponent implements OnInit {
         this.dataSource.sort= this.sort;
       });
     } 
-    cargarProductos(): void{
-      this.productosService.findAll().subscribe(data=>{this.productos=data;});
+    cargarCategorias(): void{
+      this.categoriaService.findAll().subscribe(data=>{this.categoria=data;});
     }
     
 
@@ -102,4 +103,92 @@ export class ProductosComponent implements OnInit {
         }
       });
     }
+    //interaccion en la pagina
+    editarproductos(productos : Productos):void {
+      this.producto={...productos};
+      this.idEditar =productos.idProducto;
+      this.editar=true;
+      setTimeout(() => {
+        this.formularioProductos.nativeElement.scrollIntoView({behavior: 'smooth',block:'start'})
+      }, 100);
+    }
+editarProductosCancelar(form : NgForm):void{
+  this.producto={} as Productos;
+  this.idEditar=null;
+  this.editar=false;
+  form.resetForm();
+}
+
+guardarProductos():void{
+  if(this.editar&& this.editar!==null){
+    this.update();
+}else{
+  this.save();
+}
+this.dialog.closeAll();
+}
+
+filtroProductos(event : Event):void{
+  const filtro =(event.target as HTMLInputElement).value;
+  this.dataSource.filter=filtro.trim().toLocaleLowerCase();
+}
+
+nombreCompletoProducto(productos: Productos): string{
+  return` ${productos.nombre}`;
+}
+abrirModal(productos: Productos) : void{
+  if(productos){
+    this.producto={...productos};
+    this.editar=true;
+    this.idEditar=productos.idProducto;
+  }else{
+    this.producto={}as Productos;
+    this.editar= false;
+    this.idEditar=null;
+ }
+ this.dialog.open(this.modalProductos,{
+  width: '800px',
+  disableClose: true
+ });
+}
+
+compareProductos(c1: Productos, c2:Productos): boolean{
+  return c1 && c2 ? c1.idProducto === c2.idProducto : c1 === c2;
+}
+
+onFileSelected(event: any){
+  this.seleccionarArchivo=event.target.files[0];
+}
+
+subirImagen(): void {
+  const formData = new FormData();
+  formData.append("file",this.seleccionarArchivo);
+
+  if ( this.producto["portada"]){
+    formData.append("oldImage",this.producto["portada"]);
   }
+
+  this.http.post<{ruta:string}>('http://localhost:8080/api/upload-portada',formData).subscribe(res=>{ 
+    this.producto["portada"]= res.ruta;
+    this.imagenPrevia= res.ruta;
+  });
+}
+
+abrirModalDEtalles (productos: Productos): void{
+  this.productoSeleccionado= productos;
+  this.dialog.open(this.modalDetalles,{
+   width:'500px' 
+  });
+}
+
+cerrarModal():void{
+  this.dialog.closeAll();
+  this.productoSeleccionado=null;
+}
+
+}
+
+
+
+  
+

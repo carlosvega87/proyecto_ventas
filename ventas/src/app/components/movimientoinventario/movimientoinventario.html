@@ -1,85 +1,52 @@
-<div class="container mt-4" #formularioMovimientoInventario >
-    <h2>{{ editar?'Editar MovimientoInventario':'Agregar Movimiento Inventario' }}</h2>
-
-    <form (ngSubmit)= "guardar(formMovimientoInventario)" #formMovimientoInventario= "ngForm" novalidate>
-        <div class="row">
-            <div class="col-md-4 mb-2">
-                <input class="form-control" type="text" placeholder="tipo"[(ngModel)]= "movimientoInventario.tipo"
-                name="tipo" required #tipo="ngModel" [ngClass]="{'is-invalid':tipo.invalid && tipo.touched}">
-
-            </div>
-            <div class="col-md-4 mb-2">
-                <input class="form-control" type="number" placeholder="cantidad"[(ngModel)]= "movimientoInventario.cantidad"
-                name="cantidad" required #cantidad="ngModel" [ngClass]="{'is-invalid': cantidad.invalid && cantidad.touched}">
-
-            </div>
-            <div class="col-md-4 mb-2">
-                <input class="form-control" type="datetime" placeholder="fechaMovimiento"[(ngModel)]= "movimientoInventario.fechaMovimiento"
-                name="fechaMovimiento" required #fechaMovimiento="ngModel" [ngClass]="{'is-invalid': fechaMovimiento.invalid && fechaMovimiento.touched}">
-
-            </div>
-            
-        </div>
-        <button type="submit" class="btn btn-primary me-2" [disabled]="formMovimientoInventario.invalid">
-            <mat-icon>{{ editar ? 'edit' : 'add'}} </mat-icon>
-                        {{editar ? 'Actualizar' : 'Agregar'}}
+<div class ="container mt-4">
+    <h1>Movimiento Inventario</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <button  mat-raised-button color="primary"(click)="abrirModal(movimientoInventario)">
+        <mat-icon>add</mat-icon>Agregar movimientoInventario
         </button>
-        <button type="button" class="btn btn-secondary" *ngIf="editar" (click)="editarMovimientoInventarioCancelar(formMovimientoInventario)">
-        <mat-icon>close</mat-icon>
-                  Cancelar
-        </button>
-    </form>
-
-    <hr class="my-4" /> 
-
-    <h3>Lista de Movimiento Inventario</h3>
-
+    </div>
     <mat-form-field appearance="fill" class="w-100">
         <mat-label>Buscar</mat-label>
-        <input matInput (keyup)="filtro($event)" placeholder="Buscar movimiento inventario">
+        <input matInput (keyup)="filtroMovimientoInventario($event)" placeholder="Buscar movimientoInventario...">
     </mat-form-field>
+    <div class="table-resposive">
+        <table mat-table [dataSource]="dataSource"matSort class="mat-elevation-z8 w-100">
+            <ng-container matColumnDef="detalles">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let movimientoInventario">
+                    <button mat-icon-button color="primary" (click)="abrirModalDEtalles(movimientoInventario)">
+                        <mat-icon>visibility</mat-icon>
 
-    <div class="table-responsive">
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+                    </button>
+                </td>
+            </ng-container>
             <ng-container matColumnDef="idMovimiento">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                <td mat-cell *matCellDef="let c">{{ c.idMovimiento}}</td>
+                <td mat-cell *matCellDef="let l">{{l.idMovimiento}}</td>
             </ng-container>
+
             <ng-container matColumnDef="tipo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
-                <td mat-cell *matCellDef="let c">{{ c.tipo}}</td>
+                <td mat-cell *matCellDef="let l">{{l.tipo}}</td>
             </ng-container>
+
             <ng-container matColumnDef="cantidad">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>    
-                <td mat-cell *matCellDef="let c">{{ c.cantidad}}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                <td mat-cell *matCellDef="let l">{{l.cantidad}}</td>
             </ng-container>
+
             <ng-container matColumnDef="fechaMovimiento">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>    
-                <td mat-cell *matCellDef="let c">{{ c.fechaMovimiento}}</td>
-            </ng-container>
-           
-            <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                <td mat-cell *matCellDef="let c">
-                    <div class="d-flex gap-1">
-                        <button class="btn btn-warning btn-sm me-1" (click)="editarMovimientoInventario(c)">
-                            <mat-icon class="me-1">edit</mat-icon>
-                        </button>
-                        <button class="btn btn-danger btn-sm" (click)=" movimientoInventario = c; delete()">
-                            <mat-icon class="me-1">delete</mat-icon>
-                        </button>
-
-                    </div>
-                </td>
-
-
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaMovimiento</th>
+                <td mat-cell *matCellDef="let l"> {{l.fechaMovimiento| date:'yyyy-MM-dd'}}</td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
-            <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"></tr>
-
+            <ng-container matColumnDef="productos">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>productos</th>
+                <td mat-cell *matCellDef="let l">{{l.productos}}</td>
+            </ng-container>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 
     </div>
 </div>
+
+
