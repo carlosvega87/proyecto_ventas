@@ -2,13 +2,13 @@ package com.distribuida.service;
 
 
 import com.distribuida.dao.PagosRepository;
-
 import com.distribuida.model.Pagos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PagosServiceImpl implements PagosService {
     @Autowired
     private PagosRepository pagosRepository;
@@ -36,7 +36,7 @@ public class PagosServiceImpl implements PagosService {
         if (pagos1Existente == null){
             return null;
         }
-        pagos1Existente.orElse(null).setMetodoPago(pagos.getMetodoPago());
+        pagos1Existente.orElse(null).setDescripcion(pagos.getDescripcion());
         pagos1Existente.orElse(null).setFechaPago(pagos.getFechaPago());
 
 

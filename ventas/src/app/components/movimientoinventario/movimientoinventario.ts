@@ -1,15 +1,15 @@
-import { Component,  ElementRef,  OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Productos } from '../../model/productos.model';
-import { MovimientoInventario } from '../../model/movimientoInventario.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { ProductosService } from '../../services/productos';
-import { MovimientoInventarioService } from '../../services/movimientoinventario';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import Swal from 'sweetalert2';
-import { NgForm } from '@angular/forms';  
+  import { Component,  ElementRef,  OnInit, TemplateRef, ViewChild } from '@angular/core';
+  import { Productos } from '../../model/productos.model';
+  import { MovimientoInventario } from '../../model/movimientoInventario.model';
+  import { MatTableDataSource } from '@angular/material/table';
+  import { MatPaginator } from '@angular/material/paginator';
+  import { MatSort } from '@angular/material/sort';
+  import { ProductosService } from '../../services/productos';
+  import { MovimientoInventarioService } from '../../services/movimientoinventario';
+  import { HttpClient } from '@angular/common/http';
+  import { MatDialog } from '@angular/material/dialog';
+  import Swal from 'sweetalert2';
+  import { NgForm } from '@angular/forms';  
 
 @Component({
   selector: 'app-movimientoinventario',
@@ -138,7 +138,7 @@ filtroMovimientoInventario(event : Event):void{
 nombreCompletoProductos(productos: Productos): string{
   return` ${productos.nombre}`;
 }
-abrirModal(movimientoInventario: MovimientoInventario) : void{
+abrirModal(movimientoInventario?: MovimientoInventario) : void{
   if(movimientoInventario){
     this.movimientoInventario={...movimientoInventario};
     this.editar=true;
@@ -158,7 +158,7 @@ compareProductos(c1: Productos, c2:Productos): boolean{
   return c1 && c2 ? c1.idProducto === c2.idProducto : c1 === c2;
 }
 
-onFileSelected(event: any){
+onSeleccionarArchivo(event: any){
   this.seleccionarArchivo=event.target.files[0];
 }
 
@@ -176,12 +176,12 @@ subirImagen(): void {
   });
 }
 
-abrirModalDEtalles (movimientoInventario: MovimientoInventario): void{
-  this.movimientoInventarioSeleccionado= movimientoInventario;
-  this.dialog.open(this.modalDetalles,{
-   width:'500px' 
-  });
-}
+  abrirModalDEtalles (movimientoInventario: MovimientoInventario): void{
+    this.movimientoInventarioSeleccionado= movimientoInventario;
+    this.dialog.open(this.modalDetalles,{
+    width:'500px' 
+    });
+  }
 
 cerrarModal():void{
   this.dialog.closeAll();

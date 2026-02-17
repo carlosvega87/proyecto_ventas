@@ -10,8 +10,8 @@ public class Pagos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pago")
     private int idPago;
-    @Column(name = "metodo_pago")
-    private String metodoPago;
+    @Column(name = "descripcion")
+    private String descripcion;
     @Column(name = "fecha_pago")
     private String fechaPago;
 
@@ -19,9 +19,9 @@ public class Pagos {
     public Pagos() {
     }
 
-    public Pagos(int idPago, String metodoPago, String fechaPago) {
+    public Pagos(int idPago, String descripcion, String fechaPago) {
         this.idPago = idPago;
-        this.metodoPago = metodoPago;
+        this.descripcion = descripcion;
         this.fechaPago = fechaPago;
     }
 
@@ -33,12 +33,12 @@ public class Pagos {
         this.idPago = idPago;
     }
 
-    public String getMetodoPago() {
-        return metodoPago;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setMetodoPago(String metodoPago) {
-        this.metodoPago = metodoPago;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getFechaPago() {
@@ -53,7 +53,7 @@ public class Pagos {
     public String toString() {
         return "Pagos{" +
                 "idPago=" + idPago +
-                ", metodoPago='" + metodoPago + '\'' +
+                ", descripcion='" + descripcion + '\'' +
                 ", fechaPago='" + fechaPago + '\'' +
                 '}';
     }

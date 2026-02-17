@@ -35,4 +35,3 @@ constructor(private http: HttpClient){  }
   }
 }
 
-export { Cliente };

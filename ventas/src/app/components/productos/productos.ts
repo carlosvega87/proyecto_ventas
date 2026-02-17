@@ -133,10 +133,10 @@ filtroProductos(event : Event):void{
   this.dataSource.filter=filtro.trim().toLocaleLowerCase();
 }
 
-nombreCompletoProducto(productos: Productos): string{
-  return` ${productos.nombre}`;
-}
-abrirModal(productos: Productos) : void{
+nombreCompletoCategorias(categoria: Categoria): string{
+  return` ${categoria.nombreCategoria}`;
+} 
+abrirModal(productos?: Productos) : void{
   if(productos){
     this.producto={...productos};
     this.editar=true;
@@ -152,11 +152,11 @@ abrirModal(productos: Productos) : void{
  });
 }
 
-compareProductos(c1: Productos, c2:Productos): boolean{
-  return c1 && c2 ? c1.idProducto === c2.idProducto : c1 === c2;
+compareCategorias(c1: Categoria, c2:Categoria): boolean{
+  return c1 && c2 ? c1.idCategoria === c2.idCategoria : c1 === c2;
 }
 
-onFileSelected(event: any){
+onSeleccionarArchivo(event: any){
   this.seleccionarArchivo=event.target.files[0];
 }
 

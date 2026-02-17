@@ -1,7 +1,7 @@
 <div class ="container mt-4">
-    <h1>Movimiento Inventario</h1>
+    <h1>Productos</h1>
     <div class="d-flex justify-content-center mb-3">
-        <button  mat-raised-button color="primary"(click)="abrirModal(producto)">
+        <button  mat-raised-button color="primary"(click)="abrirModal()">
         <mat-icon>add</mat-icon>Agregar productos
         </button>
     </div>
@@ -22,7 +22,7 @@
             </ng-container>
             <ng-container matColumnDef="idProducto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                <td mat-cell *matCellDef="let l">{{l.idMovimiento}}</td>
+                <td mat-cell *matCellDef="let l">{{l.idProducto}}</td>
             </ng-container>
 
             <ng-container matColumnDef="nombre">
@@ -32,7 +32,7 @@
 
             <ng-container matColumnDef="precio">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
-                <td mat-cell *matCellDef="let l">{{l.precio}}</td>
+                <td mat-cell *matCellDef="let l">{{l.precio | currency}}</td>
             </ng-container>
 
             <ng-container matColumnDef="stock">
@@ -46,13 +46,149 @@
             </ng-container>
 
               <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>estado/th>
-                <td mat-cell *matCellDef="let l">{{l.estado}}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>estado</th>
+                <td mat-cell *matCellDef="let l">{{l.estado}}</td>>
+            </ng-container>
+            
+              <ng-container matColumnDef="categoria">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Categorias</th>
+                <td mat-cell *matCellDef="let l">{{nombreCompletoCategorias(l.categoria)}}</td>
             </ng-container>
 
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let l">
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-warning btn-sm me-1"(click)="abrirModal(l)">
+                            <mat-icon>edit </mat-icon>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="producto =l ; delete()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
+            <tr mat-row *matRowDef="let row;columns: mostrarColumnas"></tr>
               
         </table>
-
+          <mat-paginator [pageSizeOptions]="[5,10,25]" showFirstLastButtons></mat-paginator>
     </div>
 </div>
+///
+
+<ng-template #modalProductos>
+    <mat-dialog-content>
+        <h2 mat-dialog-title>{{editar? 'Editar Producto ': 'Agregar Producto'}} </h2>
+        <form #formProducto="ngForm" novalidate>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput type="text" [(ngModel)]="producto.nombre" name="nombre" required />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Precio </mat-label>
+                        <input matInput type="text" [(ngModel)]="producto.precio" name="precio"equired />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Stock </mat-label>
+                        <input matInput type="text" [(ngModel)]="producto.stock" name="Stock"required />
+                    </mat-form-field>
+                </div>
+               
+                <div class="col-md-4 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Fecha de Registro</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="producto.fechaRegistro"
+                            name="fechaRegistro" required />
+                        <mat-datepicker-toggle matSuffix [for]=" picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>  
+                
+                 <div class="col-md-12 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Estado </mat-label>
+                        <input matInput type="text" [(ngModel)]="producto.estado" name="estado"required />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Categorias</mat-label>
+                        <mat-select [(ngModel)]="producto.categoria" name="categoria"required [compareWith]="compareCategorias">
+                            <mat-option *ngFor="let a of categoria" [value]="a">{{nombreCompletoCategorias(a)}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+               
+                <div class="col-md-12 mb-2">
+                    <div class="custom-file-upload">
+                        <input #fileInput type="file" (change)="onSeleccionarArchivo($event)" hidden>
+                        <button mat-raised-button color="primary" (click)="fileInput.click()"
+                            style="margin-right: 10 px;">
+                            Seleccionar Imagen
+                        </button>
+                        <span *ngIf="seleccionarArchivo">{{seleccionarArchivo.name}} </span>
+
+                        <button mat-raised-button color="primary" (click)="subirImagen()">Subir Imagen</button>
+                    </div>
+                    <div class="imagen-container" *ngIf="producto['portada'] || imagenPrevia">
+                        <img 
+                        [src]="'http://localhost:8080/' + (imagenPrevia|| producto['portada'])"
+                        alt="Portada de Libro"
+                        class="imagen-portada"
+                        />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar </button> 
+        <button mat-flat-button color="primary" (click)="guardarProductos()"[disabled]="formProducto.invalid"> 
+            {{editar ? 'Actualizar':'Guardar'}}
+
+        </button>
+
+    </mat-dialog-actions>
+</ng-template>
+     
+<!--MODAL PARA DETALLES DEL MOVIMIENTO INVENTARIO-->
+
+<ng-template #modalDetalles let-data >
+    <h2 mat-dialog-title> Detalles del Producto</h2>
+    <mat-dialog-content>
+        <div *ngIf ="productoSeleccionado?.['portada']">
+            <img
+            [src]="'http://localhost:8080' + productoSeleccionado?.['portada'] " 
+            alt="Portada del MovimientoInventario" 
+            style="width: 400 px; margin-top: 1rem;"  
+            />f
+        </div>
+        <p><strong>Nombre: </strong>{{productoSeleccionado?.nombre}}</p>
+           <p><strong>Precio: </strong>{{productoSeleccionado?.precio}}</p>   
+            <p><strong>Stock: </strong>{{productoSeleccionado?.stock}}</p>
+          <p><strong>Fecha de Registro </strong>{{productoSeleccionado?.fechaRegistro |date}}</p>  
+           <p><strong>Estado: </strong>{{productoSeleccionado?.estado}}</p>       
+        <p><strong>Categorias: </strong>{{productoSeleccionado?.categoria?.nombreCategoria }} </p>
+            
+    </mat-dialog-content>
+    <mat-dialog-actions aling="end ">
+        <button mat-button (click)="cerrarModal()">Cerrar </button>
+
+    </mat-dialog-actions>F
+</ng-template>
+
+
+
 
