@@ -21,12 +21,12 @@ constructor(private http: HttpClient){  }
     return this.http.get<Productos>(`${this.baseUrl}/${id}`);
   }
 
-  save(cliente: Productos): Observable<Productos>{
-    return this.http.post<Productos>(this.baseUrl, cliente);
+  save(producto: Productos): Observable<Productos>{
+    return this.http.post<Productos>(this.baseUrl, producto);
   }
 
-  update(id: number, cliente: Productos): Observable<Productos>{
-    return this.http.put<Productos>(`${this.baseUrl}/${id}`, cliente);
+  update(id: number, producto: Productos): Observable<Productos>{
+    return this.http.put<Productos>(`${this.baseUrl}/${id}`, producto);
   }
 
   delete(id: number): Observable<void>{

@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pago")
+@RequestMapping("/api/pagos")
 public class PagosController {
 
     @Autowired
     private PagosService pagosService;
 
     // LISTAR TODOS
-    @GetMapping("/listar")
+    @GetMapping
     public List<Pagos> listar() {
         return pagosService.findAll();
     }
 
     // BUSCAR POR ID
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Pagos> buscarPorId(@PathVariable int id) {
         Optional<Pagos> pagos = pagosService.findOne(id);
         return pagos.map(ResponseEntity::ok)
@@ -32,13 +32,13 @@ public class PagosController {
     }
 
     // GUARDAR
-    @PostMapping("/guardar")
+    @PostMapping
     public Pagos guardar(@RequestBody Pagos pagos) {
         return pagosService.save(pagos);
     }
 
     // ACTUALIZAR
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Pagos> actualizar(@PathVariable int id,
                                              @RequestBody Pagos pagos) {
         Pagos actualizado = pagosService.uptade(id, pagos);
@@ -49,7 +49,7 @@ public class PagosController {
     }
 
     // ELIMINAR
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable int id) {
         pagosService.delete(id);
         return ResponseEntity.noContent().build();
