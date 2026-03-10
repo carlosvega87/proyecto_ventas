@@ -1,4 +1,4 @@
-import { Component,  ElementRef,  OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component,  ElementRef,  OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Productos } from '../../model/productos.model';
 import { Categoria } from '../../model/categoria.model';
 import { MatTableDataSource } from '@angular/material/table';
@@ -42,8 +42,8 @@ export class ProductosComponent implements OnInit {
     private categoriaService : CategoriaService,
    
     private dialog : MatDialog,
-    private http: HttpClient
-
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ){}
   ngOnInit(): void {
 
@@ -146,9 +146,11 @@ abrirModal(productos?: Productos) : void{
     this.editar= false;
     this.idEditar=null;
  }
+  setTimeout(() => {
  this.dialog.open(this.modalProductos,{
   width: '800px',
   disableClose: true
+ });
  });
 }
 
@@ -168,10 +170,12 @@ subirImagen(): void {
     formData.append("oldImage",this.producto["portada"]);
   }
 
-  this.http.post<{ruta:string}>('http://localhost:8080/api/upload-portada',formData).subscribe(res=>{ 
-    this.producto["portada"]= res.ruta;
-    this.imagenPrevia= res.ruta;
-  });
+  this.http.post<{ruta:string}>('http://localhost:8080/api/upload-portada',formData)
+    .subscribe(res=>{ 
+      this.producto["portada"] = res.ruta;
+      this.imagenPrevia = res.ruta;
+      this.cdr.detectChanges();
+    });
 }
 
 abrirModalDEtalles (productos: Productos): void{

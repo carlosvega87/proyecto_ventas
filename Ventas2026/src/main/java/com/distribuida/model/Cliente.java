@@ -1,6 +1,7 @@
 package com.distribuida.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 @Entity
@@ -20,7 +21,9 @@ public class Cliente {
     private String telefono;
 @Column(name = "direccion")
     private String direccion;
-@Column(name = "fecha_registro")
+    @Column(name = "fecha_registro")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
 
 public Cliente(){ }

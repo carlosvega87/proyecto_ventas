@@ -29,7 +29,7 @@ public class CategoriaServiceImpl implements CategoriaService{
     }
 
     @Override
-    public Categoria uptade(int id, Categoria categoria) {
+    public Categoria update(int id, Categoria categoria) {
 
         Optional<Categoria> categoriaExistente = categoriaRepository.findById(id);
 

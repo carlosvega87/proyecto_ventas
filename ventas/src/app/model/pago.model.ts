@@ -1,4 +1,4 @@
-export interface Pagos{
+export interface Pago{
 
     idPago : number
     descripcion : string

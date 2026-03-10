@@ -25,7 +25,7 @@ editar: boolean = false;
 idEditar: number | null = null;
 
 dataSource!: MatTableDataSource<Cliente>;
-mostrarColumnas: String[] = ['idCliente', 'nombre', 'apellido','email', 'telefono', 'direccion', 'fechaRegistro', 'acciones'];
+mostrarColumnas: string[] = ['idCliente', 'nombre', 'apellido','email', 'telefono', 'direccion', 'fechaRegistro', 'acciones'];
 
   
 constructor(private clienteService: ClienteService) { }
@@ -97,7 +97,7 @@ constructor(private clienteService: ClienteService) { }
     this.editar = true;
 
     setTimeout(() => {
-      this.formularioCliente.nativeElement.scrollIntoView8({ behavior: 'smooh', block: 'start' });
+      this.formularioCliente.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   }
 
@@ -105,7 +105,7 @@ constructor(private clienteService: ClienteService) { }
     this.cliente = { } as Cliente;
     this.idEditar =  null;
     this.editar = false;
-    from.resetForm;
+    from.resetForm();
   }
 
   guardar(from: NgForm): void{

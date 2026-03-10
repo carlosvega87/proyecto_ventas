@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PagoService } from './pagos';
+import { PagoService } from './pago';
 
-describe('Pagos', () => {
+describe('PagoService', () => {
   let service: PagoService;
 
   beforeEach(() => {
@@ -14,4 +14,3 @@ describe('Pagos', () => {
     expect(service).toBeTruthy();
   });
 });
-

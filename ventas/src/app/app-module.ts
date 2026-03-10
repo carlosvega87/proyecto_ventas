@@ -20,7 +20,7 @@ import { ProductosComponent} from './components/productos/productos';
 import { MatSelectModule } from '@angular/material/select';
 import{MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import{MatDatepickerModule} from  '@angular/material/datepicker';
-import { PagosComponent} from './components/pagos/pagos';
+import { PagoComponent} from './components/pago/pago';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { PagosComponent} from './components/pagos/pagos';
     ClienteComponent,
     CategoriaComponent,
     ProductosComponent,
-    PagosComponent
+    PagoComponent,
+   
     
   ],
   imports: [
@@ -49,7 +50,7 @@ import { PagosComponent} from './components/pagos/pagos';
     MatSelectModule,
     MatOptionModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
 
   ],
   providers: [

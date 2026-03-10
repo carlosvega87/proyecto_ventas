@@ -1,7 +1,6 @@
 package com.distribuida.controller;
 
 import com.distribuida.model.Pagos;
-import com.distribuida.model.Pedido;
 import com.distribuida.service.PagosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

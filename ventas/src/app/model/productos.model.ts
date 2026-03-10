@@ -3,7 +3,7 @@ export interface Productos{
     idProducto:number
     nombre:string
     precio:number
-    stock:string
+    stock:number
     fechaRegistro:string
     estado: string
    categoria: Categoria

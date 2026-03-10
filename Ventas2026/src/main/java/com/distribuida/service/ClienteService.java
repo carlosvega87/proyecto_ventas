@@ -13,8 +13,10 @@ public interface ClienteService {
 
     public Cliente save(Cliente cliente);
 
-    public Cliente uptade(int id, Cliente cliente);
+    public Cliente update(int id, Cliente cliente);
 
     public void delete(int id);
+
+
 }
 

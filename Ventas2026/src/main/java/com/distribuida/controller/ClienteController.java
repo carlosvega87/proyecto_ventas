@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cliente")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 
     @Autowired
@@ -45,7 +45,7 @@ public class ClienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> update(@PathVariable int id, @RequestBody Cliente cliente){
 
-        Cliente clienteActualizado = clienteService.uptade(id, cliente);
+        Cliente clienteActualizado = clienteService.update(id, cliente);
         if(clienteActualizado == null){
             return  ResponseEntity.notFound().build();
         }

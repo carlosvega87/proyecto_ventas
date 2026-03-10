@@ -9,7 +9,7 @@ import { Cliente } from '../model/cliente.model';
 })
 export class ClienteService {
   
-  private baseUrl = "http://localhost:8080/api/cliente"
+  private baseUrl = "http://localhost:8080/api/clientes"
 
 constructor(private http: HttpClient){  }
   
