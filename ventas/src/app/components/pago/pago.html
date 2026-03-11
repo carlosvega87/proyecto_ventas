@@ -9,7 +9,7 @@
 
             </div>
             <div class="col-md-4 mb-2">
-                <input class="form-control" type="text" placeholder="fechaPago"[(ngModel)]= "pago.fechaPago"
+                <input class="form-control" type="date" placeholder="fechaPago"[(ngModel)]= "pago.fechaPago"
                 name="fechaPago" required #fechaPago="ngModel" [ngClass]="{'is-invalid': fechaPago.invalid && fechaPago.touched}">
 
                 </div>
